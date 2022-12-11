@@ -16,6 +16,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final questions = const [
+    {
+      'questionText': 'what\'s your favourite color?',
+      'answer': [
+        'Black',
+        'Red',
+        'Green',
+        'White',
+      ],
+    },
+    {
+      'questionText': 'what\'s your favourite animal?',
+      'answer': [
+        'Rabbit',
+        'Snake',
+        'Elephant',
+        'Lion',
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favourite instuctor?',
+      'answer': [
+        'Max',
+        'Max',
+        'Max',
+        'Max',
+      ],
+    }
+  ];
+
   var _questionIndex = 0;
 
   void _answerQuestion() {
@@ -23,28 +53,33 @@ class _MyAppState extends State<MyApp> {
       _questionIndex = _questionIndex + 1;
     });
 
+    if (_questionIndex < questions.length) {
+      print('we have more question!');
+    }
+
     print(_questionIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'what \'s your favourite color?',
-      'What \'s your favourite animal?'
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(children: [
-          Question(
-            questions[_questionIndex],
-          ),
-          Answer(_answerQuestion),
-          Answer(_answerQuestion),
-          Answer(_answerQuestion),
-        ]),
+        body: Column(
+          children: [
+            Question(
+              questions[_questionIndex]['questionText'].toString(),
+            ),
+
+            //Nested List
+            ...(questions[_questionIndex]['answer'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
+          ],
+        ),
       ),
     );
   }
